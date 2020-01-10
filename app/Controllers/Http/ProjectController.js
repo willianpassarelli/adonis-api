@@ -14,7 +14,7 @@ class ProjectController {
    * Show a list of all projects.
    * GET projects
    */
-  async index ({ request, response, view }) {
+  async index () {
     const projects = await Project.query().with('user').fetch()
 
     return projects
