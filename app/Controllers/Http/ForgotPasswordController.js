@@ -1,7 +1,7 @@
 'use strict'
 
 const cryto = require('crypto')
-const date = require('date-fns')
+const { isAfter, subDays } = require('date-fns')
 const User = use('App/Models/User')
 const Mail = use('Mail')
 
@@ -37,7 +37,7 @@ class ForgotPasswordController {
 
       const user = await User.findByOrFail('token', token)
 
-      const tokenExpired = date.isAfter(date.subDays(new Date(), 2), user.token_created_at)
+      const tokenExpired = isAfter(subDays(new Date(), 2), user.token_created_at)
 
       if (tokenExpired) {
         return response.status(401).send({ error: { message: 'O token de recuperação está expirado' } })
