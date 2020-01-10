@@ -35,9 +35,9 @@ class ForgotPasswordController {
     try {
       const { token, password } = request.all()
 
-      const user = await User.findByorFail('token', token)
+      const user = await User.findByOrFail('token', token)
 
-      const tokenExpired = date.isAfter(date.subDays(date.parseISO(), 2), user.token_created_at)
+      const tokenExpired = date.isAfter(date.subDays(new Date(), 2), user.token_created_at)
 
       if (tokenExpired) {
         return response.status(401).send({ error: { message: 'O token de recuperação está expirado' } })
