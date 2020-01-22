@@ -12,6 +12,9 @@ Route.put('passwords', 'ForgotPasswordController.update').validator('ResetPasswo
 
 Route.get('/files/:id', 'FileController.show')
 
+Route.post('/status', 'StatusController.store')
+Route.get('/status', 'StatusController.index')
+
 Route.group(() => {
   Route.post('/files', 'FileController.store')
 

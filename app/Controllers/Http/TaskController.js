@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Task = use('App/Models/Task')
+const moment = require('moment')
 
 /**
  * Resourceful controller for interacting with tasks
@@ -14,10 +15,28 @@ class TaskController {
    * Show a list of all tasks.
    * GET tasks
    */
-  async index ({ params }) {
+  async index ({ params, request }) {
+    const { date } = request.get()
+
+    if (date) {
+      switch (date) {
+        case 'today': {
+          const tasks = await Task.query()
+            .where('project_id', params.projects_id)
+            .where('start_date', moment())
+            .with('user')
+            .with('status')
+            .fetch()
+          return tasks
+        }
+        default:
+      }
+    }
+
     const tasks = await Task.query()
       .where('project_id', params.projects_id)
       .with('user')
+      .with('status')
       .fetch()
 
     return tasks
@@ -32,8 +51,10 @@ class TaskController {
       'user_id',
       'title',
       'description',
+      'start_date',
       'due_date',
-      'file_id'
+      'file_id',
+      'status_id'
     ])
 
     const task = await Task.create({ ...data, project_id: params.projects_id })
@@ -62,7 +83,8 @@ class TaskController {
       'title',
       'description',
       'due_date',
-      'file_id'
+      'file_id',
+      'status_id'
     ])
 
     task.merge(data)

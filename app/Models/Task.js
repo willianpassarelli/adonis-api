@@ -23,6 +23,10 @@ class Task extends Model {
   file () {
     return this.belongsTo('App/Models/File')
   }
+
+  status () {
+    return this.belongsTo('App/Models/Status')
+  }
 }
 
 module.exports = Task

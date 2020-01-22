@@ -4,8 +4,7 @@
 
 const Model = use('Model')
 
-class UserAddress extends Model {
-
+class Status extends Model {
 }
 
-module.exports = UserAddress
+module.exports = Status
