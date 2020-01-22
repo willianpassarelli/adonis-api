@@ -10,6 +10,10 @@ class File extends Model {
     return ['url']
   }
 
+  static get hidden () {
+    return ['created_at', 'updated_at', 'name', 'file', 'type', 'subtype']
+  }
+
   getUrl ({ id }) {
     return `${Env.get('APP_URL')}/files/${id}`
   }
