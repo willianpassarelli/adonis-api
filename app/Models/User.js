@@ -14,6 +14,10 @@ class User extends Model {
     })
   }
 
+  static get hidden () {
+    return ['password', 'token', 'token_created_at', 'created_at', 'updated_at']
+  }
+
   file () {
     return this.belongsTo('App/Models/File')
   }

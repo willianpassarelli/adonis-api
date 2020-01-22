@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Task = use('App/Models/Task')
+
 const moment = require('moment')
 
 /**
@@ -16,28 +17,38 @@ class TaskController {
    * GET tasks
    */
   async index ({ params, request }) {
-    const { date } = request.get()
+    const { page, date, search } = request.get()
 
-    if (date) {
-      switch (date) {
-        case 'today': {
-          const tasks = await Task.query()
-            .where('project_id', params.projects_id)
-            .where('start_date', moment())
-            .with('user')
-            .with('status')
-            .fetch()
-          return tasks
-        }
-        default:
-      }
+    const query = Task.query()
+    query.orderBy('id')
+
+    if (search) {
+      query.where('title', 'LIKE', `%${search}%`)
+    } else {
+      query.where('project_id', params.projects_id)
     }
 
-    const tasks = await Task.query()
-      .where('project_id', params.projects_id)
-      .with('user')
-      .with('status')
-      .fetch()
+    switch (date) {
+      case 'today': {
+        query.where('start_date', new Date())
+        break
+      }
+      case 'week': {
+        break
+      }
+      case 'month': {
+        break
+      }
+      default:
+    }
+
+    query.with('user')
+    query.with('status')
+    query.with('file')
+    query.with('project')
+    query.forPage(page, 20)
+
+    const tasks = await query.fetch()
 
     return tasks
   }

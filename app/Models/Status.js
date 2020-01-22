@@ -5,6 +5,9 @@
 const Model = use('Model')
 
 class Status extends Model {
+  static get hidden () {
+    return ['created_at', 'updated_at']
+  }
 }
 
 module.exports = Status
