@@ -14,8 +14,8 @@ class User extends Model {
     })
   }
 
-  addresses () {
-    return this.hasMany('App/Models/UserAddress')
+  file () {
+    return this.belongsTo('App/Models/File')
   }
 
   tokens () {

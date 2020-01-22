@@ -19,6 +19,7 @@ class ProjectController {
 
     const projects = await Project.query()
       .with('user')
+      .withCount('tasks')
       .paginate(page)
 
     return projects
