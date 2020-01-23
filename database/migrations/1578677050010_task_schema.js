@@ -38,8 +38,8 @@ class TaskSchema extends Schema {
         .inTable('statuses')
         .onUpdate('CASCADE')
         .onDelete('SET NULL')
-      table.dateTime('start_date')
-      table.dateTime('due_date')
+      table.date('start_date')
+      table.date('due_date')
       table.timestamps()
     })
   }

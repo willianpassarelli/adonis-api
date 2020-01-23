@@ -6,7 +6,7 @@
 
 const Task = use('App/Models/Task')
 
-const moment = require('moment')
+const { startOfWeek, endOfWeek, startOfMonth, endOfMonth } = require('date-fns')
 
 /**
  * Resourceful controller for interacting with tasks
@@ -34,9 +34,11 @@ class TaskController {
         break
       }
       case 'week': {
+        query.whereBetween('start_date', [startOfWeek(new Date()), endOfWeek(new Date())])
         break
       }
       case 'month': {
+        query.whereBetween('start_date', [startOfMonth(new Date()), endOfMonth(new Date())])
         break
       }
       default:
